@@ -1,3 +1,6 @@
+// db/index.ts
+// ¡Este archivo ya está perfecto! No necesitas cambiar nada.
+
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as dotenv from 'dotenv';
@@ -10,16 +13,9 @@ if (!process.env.DATABASE_URL) {
 }
 
 // Configurar el cliente de postgres
-// Desactivar prefetch ya que no es compatible con el modo "Transaction" pool
 const client = postgres(process.env.DATABASE_URL, { 
   prepare: false,
-  // Configuraciones adicionales recomendadas para Supabase
-  max: 1, // número máximo de conexiones
-  idle_timeout: 20, // tiempo de espera antes de cerrar conexiones inactivas
 });
 
 // Crear la instancia de drizzle
 export const db = drizzle(client);
-
-// Exportar los tipos generados
-export type * from './schema'; 

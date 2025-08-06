@@ -1,31 +1,64 @@
+// db/actions.ts
+
 import { db } from './index';
-import { users } from './schema';
+import { sucursales, productos, categorias } from './schema';
+import { eq } from 'drizzle-orm';
 
-// Ejemplo de consulta
-async function getUsers() {
+// --- Ejemplo de Consultas (SELECT) ---
+
+/**
+ * Obtiene todas las sucursales.
+ */
+export async function getSucursales() {
   try {
-    const allUsers = await db.select().from(users);
-    console.log('Usuarios encontrados:', allUsers);
-    return allUsers;
+    const todasLasSucursales = await db.select().from(sucursales);
+    console.log('Sucursales encontradas:', todasLasSucursales);
+    return todasLasSucursales;
   } catch (error) {
-    console.error('Error al obtener usuarios:', error);
+    console.error('Error al obtener sucursales:', error);
     throw error;
   }
 }
 
-// Ejemplo de inserción
-async function createUser(fullName: string, phone: string) {
+/**
+ * Obtiene productos filtrados por una categoría específica.
+ * @param categoriaId - El ID de la categoría por la cual filtrar.
+ */
+export async function getProductosPorCategoria(categoriaId: number) {
   try {
-    const newUser = await db.insert(users).values({
-      fullName,
-      phone,
-    }).returning();
-    console.log('Usuario creado:', newUser);
-    return newUser;
+    const productosEncontrados = await db.select()
+      .from(productos)
+      .where(eq(productos.categoria_id, categoriaId));
+      
+    console.log(`Productos para la categoría ${categoriaId}:`, productosEncontrados);
+    return productosEncontrados;
   } catch (error) {
-    console.error('Error al crear usuario:', error);
+    console.error('Error al obtener productos por categoría:', error);
     throw error;
   }
 }
 
-export { getUsers, createUser }; 
+// --- Ejemplo de Inserciones (INSERT) ---
+
+type NuevaSucursal = typeof sucursales.$inferInsert;
+
+/**
+ * Crea una nueva sucursal en la base de datos.
+ * @param data - Los datos de la nueva sucursal.
+ */
+export async function createSucursal(data: NuevaSucursal) {
+  try {
+    const nuevaSucursal = await db.insert(sucursales)
+      .values(data)
+      .returning(); // .returning() te devuelve el objeto insertado
+      
+    console.log('Sucursal creada:', nuevaSucursal[0]);
+    return nuevaSucursal[0];
+  } catch (error) {
+    console.error('Error al crear la sucursal:', error);
+    throw error;
+  }
+}
+
+// Puedes seguir añadiendo aquí más funciones para crear, leer, actualizar y borrar (CRUD)
+// para el resto de tus tablas (clientes, ordenes, etc.).
