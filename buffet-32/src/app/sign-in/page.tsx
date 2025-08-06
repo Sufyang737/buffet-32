@@ -1,14 +1,15 @@
 // src/app/sign-in/page.tsx
-'use client'; // Necesario para usar hooks de React y Clerk
+'use client';
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useSignIn } from '@clerk/nextjs';
-import { useRouter } from 'next/navigation'; // Para redireccionar después del login
+import { useRouter } from 'next/navigation';
 
 export default function SignInPage() {
   const { isLoaded, signIn, setActive } = useSignIn();
-  const router = useRouter(); // Inicializa el router
+  const router = useRouter();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -33,7 +34,7 @@ export default function SignInPage() {
       if (result.status === 'complete') {
         await setActive({ session: result.createdSessionId });
         console.log('Inicio de sesión exitoso con Clerk:', result);
-        router.push('/dashboard'); // Redirige al dashboard después del login
+        router.push('/dashboard');
       } else {
         console.log('Proceso de inicio de sesión no completado:', result);
         setError('El proceso de inicio de sesión requiere pasos adicionales.');
@@ -152,12 +153,12 @@ export default function SignInPage() {
           <Image src="/google-logo.png" alt="Google Logo" width={20} height={20} />
           Sign in with Google
         </button>
-        {/* No hay botón "Continuar sin registro" porque es una página dedicada de login */}
         <p style={{ marginTop: '10px', fontSize: '14px', color: '#555' }}>
           ¿No tienes cuenta?{' '}
-          <a href="/sign-up" style={{ color: '#007bff', textDecoration: 'underline' }}>
+          {/* CORRECCIÓN: Eliminar <a> y aplicar estilos directamente al Link */}
+          <Link href="/sign-up" style={{ color: '#007bff', textDecoration: 'underline' }}>
             Regístrate
-          </a>
+          </Link>
         </p>
       </div>
     </div>

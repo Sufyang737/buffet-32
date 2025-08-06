@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useSignUp } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 
@@ -36,19 +37,15 @@ export default function SignUpPage() {
         password,
       });
 
-      // --- CAMBIO AQUÍ: Añadir el casting a 'string' para result.status en la comparación ---
-      // Convertimos result.status a string para que TypeScript no restrinja sus valores posibles.
       if ((result.status as string) === 'complete') {
         await setActive({ session: result.createdSessionId });
         console.log('Registro exitoso con Clerk:', result);
         router.push('/dashboard');
-      } else if ((result.status as string) === 'needs_email_verification') { // Este error debería desaparecer
+      } else if ((result.status as string) === 'needs_email_verification') {
         console.log('Registro exitoso, se requiere verificación de correo:', result);
         router.push(`/verify-email?email=${encodeURIComponent(email)}`);
       } else {
         console.log('Proceso de registro no completado:', result);
-        // Si necesitas manejar otros estados específicos de Clerk aquí, como 'missing_requirements',
-        // también deberías usar (result.status as string) para la comparación.
         setError('El proceso de registro requiere pasos adicionales o hay un problema.');
       }
     } catch (err: any) {
@@ -180,9 +177,10 @@ export default function SignUpPage() {
         </button>
         <p style={{ marginTop: '10px', fontSize: '14px', color: '#555' }}>
           ¿Ya tienes cuenta?{' '}
-          <a href="/sign-in" style={{ color: '#007bff', textDecoration: 'underline' }}>
+          {/* CORRECCIÓN: Eliminar <a> y aplicar estilos directamente al Link */}
+          <Link href="/sign-in" style={{ color: '#007bff', textDecoration: 'underline' }}>
             Inicia Sesión
-          </a>
+          </Link>
         </p>
       </div>
     </div>

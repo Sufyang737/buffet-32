@@ -1,6 +1,16 @@
 // tsconfig.json
 {
   "compilerOptions": {
+    // ... otras opciones que ya tengas
+    "baseUrl": ".", // <--- ¡MUY IMPORTANTE! Esto define la base para resolver los "paths"
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ] // <--- ¡MUY IMPORTANTE! Esto mapea "@/" a la carpeta "src/"
+      // Si tienes otros alias como "@components/*", también deberían estar aquí
+      // "@/components/*": ["./src/app/components/*"]
+    },
+    // ... otras opciones como "jsx", "lib", "moduleResolution"
     "lib": [
       "dom",
       "dom.iterable",
@@ -8,38 +18,27 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true, // Mantener en true es buena práctica para tipado estricto
+    "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler", // Recomendado para Next.js 13+
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve", // ¡ESTA ES LA CLAVE para Next.js App Router!
+    "jsx": "preserve",
     "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ], // Ajuste de paths para que apunten a src
-      // Puedes añadir más alias si usas la estructura src/
-      "@components/*": [
-        "./src/app/components/*"
-      ]
-    },
     "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts", // Importante para Next.js
-    "public/**/*.ts", // Incluye archivos TS dentro de public si los hubiera
-    "public/**/*.tsx"
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

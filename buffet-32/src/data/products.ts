@@ -1,0 +1,80 @@
+// src/data/products.ts
+
+// Interfaz para tipar un producto individual
+export interface Product {
+    id: number;
+    name: string;
+    price: number;
+    image: string; // Path o URL a la imagen del producto
+    category: 'Almuerzo' | 'Desayuno/Merienda' | 'Kiosco'; // Categoría del producto
+  }
+  
+  // Datos de ejemplo para los productos
+  export const DUMMY_PRODUCTS: Product[] = [
+    { id: 1, name: 'Sándwich de Jamón y Queso', price: 250, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 2, name: 'Milanesa de Pollo', price: 400, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 3, name: 'Gaseosa Coca-Cola', price: 150, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 4, name: 'Agua Mineral', price: 100, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 5, name: 'Alfajor de Chocolate', price: 120, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 6, name: 'Ensalada de Frutas', price: 200, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 7, name: 'Jugo de Naranja Natural', price: 130, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 8, name: 'Galletas de Avena y Pasas', price: 90, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 9, name: 'Yogur con Cereales', price: 180, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 10, name: 'Barrita Energética de Frutos Secos', price: 110, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 11, name: 'Tostado de Jamón y Queso', price: 280, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 12, name: 'Café con Leche', price: 160, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 13, name: 'Empanada de Carne', price: 220, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 14, name: 'Medialuna de Manteca', price: 80, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 15, name: 'Licuado de Banana', price: 190, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 16, name: 'Pizza por Porción', price: 300, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 17, name: 'Brownie de Chocolate', price: 140, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 18, name: 'Chipá', price: 70, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 19, name: 'Sopa Instantánea', price: 110, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 20, name: 'Muffin de Vainilla', price: 100, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 21, name: 'Agua Saborizada', price: 140, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 22, name: 'Barra de Cereal', price: 95, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 23, name: 'Panchito', price: 200, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 24, name: 'Ensalada César', price: 350, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 25, name: 'Tarta de Verduras', price: 270, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 26, name: 'Gomitas', price: 60, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 27, name: 'Churros con Dulce de Leche', price: 150, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 28, name: 'Sándwich Vegetariano', price: 260, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 29, name: 'Leche Chocolatada', price: 170, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 30, name: 'Fruta Fresca del Día', price: 100, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 31, name: 'Hamburguesa Clásica', price: 450, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 32, name: 'Papas Fritas Grandes', price: 180, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 33, name: 'Wrap de Pollo', price: 320, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 34, name: 'Sopa Crema de Verduras', price: 190, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 35, name: 'Tarta de Atún', price: 290, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 36, name: 'Gaseosa Light', price: 150, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 37, name: 'Agua con Gas', price: 100, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 38, name: 'Chicle Menta', price: 40, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 39, name: 'Caramelos Surtidos', price: 50, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 40, name: 'Chocolate en Barra', price: 180, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 41, name: 'Bebida Energética', price: 220, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 42, name: 'Snack de Arroz', price: 75, image: '/comida.jpg', category: 'Kiosco' },
+    { id: 43, name: 'Panini de Verduras', price: 300, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 44, name: 'Té de Frutas', price: 120, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 45, name: 'Café Americano', price: 140, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 46, name: 'Tostadas con Mermelada', price: 170, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 47, name: 'Scones con Crema', price: 200, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 48, name: 'Smoothie de Frutos Rojos', price: 250, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 49, name: 'Croissant', price: 90, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    { id: 50, name: 'Jugo de Tomate', price: 130, image: '/comida.jpg', category: 'Desayuno/Merienda' },
+    // --- Nuevos productos de Almuerzo ---
+    { id: 51, name: 'Lasagna de Carne', price: 480, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 52, name: 'Canelones de Ricota', price: 420, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 53, name: 'Pollo al Horno con Papas', price: 550, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 54, name: 'Bife de Chorizo', price: 600, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 55, name: 'Ñoquis con Salsa Rosa', price: 380, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 56, name: 'Milanesa a la Napolitana', price: 470, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 57, name: 'Pescado a la Plancha', price: 520, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 58, name: 'Arroz con Pollo', price: 390, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 59, name: 'Ravioles con Crema', price: 410, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 60, name: 'Fideos con Estofado', price: 430, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 61, name: 'Ensalada Completa', price: 300, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 62, name: 'Sándwich de Bondiola', price: 380, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 63, name: 'Lomo Saltado', price: 580, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 64, name: 'Costillas de Cerdo BBQ', price: 500, image: '/comida.jpg', category: 'Almuerzo' },
+    { id: 65, name: 'Choripán', price: 250, image: '/comida.jpg', category: 'Almuerzo' },
+  ];

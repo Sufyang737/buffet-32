@@ -1,37 +1,52 @@
 // src/app/dashboard/page.tsx
-'use client'; // Necesario para usar useState y otros hooks de cliente en Next.js App Router
+'use client';
 
-import React, { useState } from 'react';
-import Head from 'next/head'; // Todavía puedes usar Head en page.tsx para metadatos del documento
+import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import Image from 'next/image';
-import AuthModal from '../../components/auth/AuthModal'; // Ruta de importación actualizada
+import Link from 'next/link';
+import { useUser, useAuth } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
+
+// Ya no necesitamos importar AuthModal aquí
+// import AuthModal from '../components/auth/AuthModal';
 
 const DashboardPage: React.FC = () => {
-  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // Estado simulado de autenticación
+  const { isLoaded, isSignedIn, user } = useUser();
+  const { signOut } = useAuth();
+  const router = useRouter();
 
-  const handleOpenLoginModal = (): void => {
-    setShowLoginModal(true);
-  };
+  // Ya no necesitamos el estado para controlar la visibilidad del modal
+  // const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
+  // const [authModalInitialView, setAuthModalInitialView] = useState<'login' | 'register'>('login');
 
-  const handleCloseLoginModal = (): void => {
-    setShowLoginModal(false);
-  };
+  // Las funciones para abrir/cerrar el modal ya no son necesarias
+  // const handleOpenLoginModal = (): void => {
+  //   setAuthModalInitialView('login');
+  //   setShowAuthModal(true);
+  // };
+  // const handleOpenRegisterModal = (): void => {
+  //   setAuthModalInitialView('register');
+  //   setShowAuthModal(true);
+  // };
+  // const handleCloseAuthModal = (): void => {
+  //   setShowAuthModal(false);
+  // };
+  // const handleLoginSuccess = (): void => {
+  //   console.log('Login exitoso a través de Clerk.');
+  //   setShowAuthModal(false);
+  // };
+  // const handleRegisterSuccess = (): void => {
+  //   console.log('Registro exitoso a través de Clerk.');
+  //   setShowAuthModal(false);
+  // };
 
-  const handleLoginSuccess = (): void => {
-    setIsLoggedIn(true);
-    setShowLoginModal(false);
-    alert('¡Inicio de sesión exitoso! Bienvenido.');
-    // Aquí podrías redirigir al usuario o actualizar la UI
-  };
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f0f2f5' }}>
-      {/* Head se puede usar directamente en los componentes page.tsx en el App Router para metadatos */}
       <Head>
         <title>Carrito de Compra - Buffet-ET32</title>
         <meta name="description" content="Carrito de compra del buffet del colegio ET32" />
-        {/* <link rel="icon" href="/favicon.ico" /> // favicon.ico ya está en app/dashboard/favicon.ico */}
       </Head>
 
       <header style={{
@@ -42,20 +57,40 @@ const DashboardPage: React.FC = () => {
         borderBottom: '1px solid #eee',
         boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
       }}>
-        <button style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#555' }}>
-          &larr; {/* Flecha de retroceso */}
+        <button style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#555' }} onClick={() => router.back()}>
+          &larr;
         </button>
         <h1 style={{ flexGrow: 1, textAlign: 'center', fontSize: '20px', fontWeight: '600', color: '#333' }}>
           Carrito de Compra
         </h1>
-        <button style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#555' }}>
-          {/* Un ícono de carrito de compras */}
-          <Image src="/cart-icon.png" alt="Cart" width={24} height={24} /> {/* Asegúrate de que esta imagen exista en public/cart-icon.png */}
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {isLoaded && isSignedIn && (
+                <span style={{ fontSize: '14px', color: '#333' }}>Hola, {user?.firstName || user?.emailAddresses[0]?.emailAddress}!</span>
+            )}
+            <Link href="/dashboard" style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#555' }}>
+              <Image src="/cart-icon.png" alt="Cart" width={24} height={24} />
+            </Link>
+            {isLoaded && isSignedIn ? (
+                <button
+                    onClick={() => signOut(() => router.push('/'))}
+                    style={{ background: 'none', border: 'none', fontSize: '14px', cursor: 'pointer', color: '#007bff', textDecoration: 'underline' }}
+                >
+                    Cerrar Sesión
+                </button>
+            ) : (
+                <>
+                    <Link href="/sign-in" style={{ background: 'none', border: 'none', fontSize: '14px', cursor: 'pointer', color: '#007bff', textDecoration: 'underline' }}>
+                      Iniciar Sesión
+                    </Link>
+                    <Link href="/sign-up" style={{ background: 'none', border: 'none', fontSize: '14px', cursor: 'pointer', color: '#007bff', textDecoration: 'underline' }}>
+                      Registrarse
+                    </Link>
+                </>
+            )}
+        </div>
       </header>
 
       <main style={{ flexGrow: 1, padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        {/* Contenido del Carrito de Compra (ejemplo simplificado) */}
         <div style={{
           backgroundColor: 'white',
           padding: '30px',
@@ -71,21 +106,18 @@ const DashboardPage: React.FC = () => {
           <p style={{ fontSize: '16px', color: '#666', marginBottom: '30px' }}>
             Agrega algunos productos para empezar a comprar.
           </p>
-          <button
-            onClick={() => alert('Navegar a la página de productos')}
-            style={{
-              backgroundColor: '#007bff',
-              color: 'white',
-              padding: '12px 25px',
-              borderRadius: '8px',
-              border: 'none',
-              fontSize: '16px',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-            }}
-          >
+          <Link href="/products" style={{
+            backgroundColor: '#007bff',
+            color: 'white',
+            padding: '12px 25px',
+            borderRadius: '8px',
+            border: 'none',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+          }}>
             Explorar Productos
-          </button>
+          </Link>
         </div>
       </main>
 
@@ -102,30 +134,51 @@ const DashboardPage: React.FC = () => {
           <span style={{ fontSize: '14px', color: '#555' }}>Total a pagar</span>
           <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#333' }}>$34</p>
         </div>
-        <button
-          onClick={handleOpenLoginModal} // Este botón activa el modal de inicio de sesión
-          style={{
-            backgroundColor: '#FFD700',
-            color: 'white',
-            padding: '15px 30px',
-            borderRadius: '10px',
-            border: 'none',
-            fontSize: '18px',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            boxShadow: '0 4px 8px rgba(255,215,0,0.3)',
-          }}
-        >
-          Continue to checkout
-        </button>
+        {!isSignedIn && isLoaded ? (
+            <Link href="/sign-in" style={{
+                backgroundColor: '#FFD700',
+                color: 'white',
+                padding: '15px 30px',
+                borderRadius: '10px',
+                border: 'none',
+                fontSize: '18px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                boxShadow: '0 4px 8px rgba(255,215,0,0.3)',
+            }}>
+                Continue to checkout
+            </Link>
+        ) : (
+            <button
+                onClick={() => alert('Proceder al pago (usuario logueado)')}
+                style={{
+                    backgroundColor: '#4CAF50',
+                    color: 'white',
+                    padding: '15px 30px',
+                    borderRadius: '10px',
+                    border: 'none',
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 8px rgba(76,175,80,0.3)',
+                }}
+            >
+                Proceder al Pago
+            </button>
+        )}
       </footer>
 
-      {/* Renderiza el AuthModal condicionalmente */}
-      <AuthModal
-        isVisible={showLoginModal}
-        onClose={handleCloseLoginModal}
-        onLoginSuccess={handleLoginSuccess}
-      />
+      {/* --- SECCIÓN ELIMINADA: AuthModal ya no es necesario aquí ---
+      {showAuthModal && (
+        <AuthModal
+          isVisible={showAuthModal}
+          onClose={handleCloseAuthModal}
+          onLoginSuccess={handleLoginSuccess}
+          onRegisterSuccess={handleRegisterSuccess}
+          initialView={authModalInitialView}
+        />
+      )}
+      */}
     </div>
   );
 };
